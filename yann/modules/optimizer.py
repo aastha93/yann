@@ -132,14 +132,15 @@ class optimizer (module):
             print("... Estimating gradients")
 
         self.gradients = []
-        for param in params:  
-            if verbose >=3 :           
-                print ".. Estimating gradient of parameter ", 
-                print param 
+        for param in params:
+            if verbose >= 3:
+                print(".. Estimating gradient of parameter "),
+                print(param)
             try:
                 gradient = T.grad(objective, param)
                 self.gradients.append(gradient)
             except:
+                print param
                 raise Exception("Cannot learn a layer that is disconnected with objective. " +
                         "Try cooking again by making the particular layer learnable as False")
 
@@ -164,9 +165,9 @@ class optimizer (module):
             print("... creating internal parameters for all the optimizations")
         velocities = []
         for param in params:
-            if verbose >=3 :           
+            if verbose >=3 :
                 print ".. Estimating velocity  of parameter ",
-                print param 
+                print param
             velocity = theano.shared(numpy.zeros(param.get_value(borrow=True).shape,
                                                                 dtype=theano.config.floatX))
             velocities.append(velocity)
@@ -175,9 +176,9 @@ class optimizer (module):
         accumulator_1 = []
         accumulator_2 = []
         for param in params:
-            if verbose >=3 :           
-                print ".. Accumulating gradinent of parameter " , 
-                print param 
+            if verbose >=3 :
+                print ".. Accumulating gradinent of parameter " ,
+                print param
             eps = numpy.zeros_like(param.get_value(borrow=True), dtype=theano.config.floatX)
             accumulator_1.append(theano.shared(eps, borrow=True))
             accumulator_2.append(theano.shared(eps, borrow=True))
@@ -203,9 +204,9 @@ class optimizer (module):
         self.updates = OrderedDict()
         for velocity, gradient, acc_1, acc_2, param in zip(velocities, self.gradients,
                                                         accumulator_1, accumulator_2, params):
-            if verbose >=3 :           
-                print ".. Backprop of parameter ", 
-                print param 
+            if verbose >=3 :
+                print ".. Backprop of parameter ",
+                print param
 
             if self.optimizer_type == 'adagrad':
 
