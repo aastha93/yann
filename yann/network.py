@@ -2187,10 +2187,11 @@ class network(object):
             lr = self.learning_rate.get_value(borrow =  self.borrow)
             mom = self.current_momentum(epoch)
 
-        self.cooked_resultor.process_results(cost = cost,
-                                             lr = lr,
-                                             mom = mom,
-                                             verbose = verbose)
+
+        self.cooked_resultor.process_results(cost = self.cost,
+                                           lr = lr,
+                                           mom = mom,
+                                           verbose = verbose)
 
     def _print_layer (self, id, prefix = " ", nest = True, last = True):
         """
